@@ -62,7 +62,7 @@ func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
 
 func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 	type Result struct {
-		_id string
+		Id string `json:"_id"`
 	}
 	var result Result
 	if r.URL.Path == "/" {
@@ -74,7 +74,7 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 		json.Unmarshal([]byte(insertResult.String()), &result)
 		if insertResult.StatusCode == 201 {
 			fmt.Fprintf(w, "... Hello! A new document was inserted into Elasticsearch!\n")
-			fmt.Printf("... created document id: %s\n", result._id)
+			fmt.Printf("... created document id: %s\n", result.Id)
 		} else {
 			fmt.Fprintf(w, "... Error! Elasticsearch insert operation failed: %d\n", insertResult.StatusCode)
 			fmt.Printf("... document creation failed: %d\n", insertResult.StatusCode)
