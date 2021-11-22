@@ -9,6 +9,7 @@ import (
 func main() {
 	http.HandleFunc("/", ElasticSdk)
 	const port = "8080"
+	fmt.Printf("... binding on port %s, application is being started.\n", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("... failed listening on port %s: %e, application not started.\n", port, err)
 	}
