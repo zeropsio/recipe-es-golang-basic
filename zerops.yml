@@ -1,0 +1,5 @@
+use: [go@1]
+run:
+  - go version
+  - go build -o ./bin/server ./app/server.go
+deploy: ["./bin/server"]
