@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -71,10 +72,11 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 			log.Fatalf("... Error! Elasticsearch insert operation failed: %e", err)
 		}
 		defer insertResult.Body.Close()
-		json.Unmarshal([]byte(insertResult.String()), &result)
+		body, _ := io.ReadAll(insertResult.Body)
+		json.Unmarshal(body, &result)
 		if insertResult.StatusCode == 201 {
 			fmt.Fprintf(w, "... Hello! A new document was inserted into Elasticsearch!\n")
-			fmt.Printf("... created document id: %s\n", result.Id)
+			fmt.Printf("... created document id: %s\n", result)
 		} else {
 			fmt.Fprintf(w, "... Error! Elasticsearch insert operation failed: %d\n", insertResult.StatusCode)
 			fmt.Printf("... document creation failed: %d\n", insertResult.StatusCode)
