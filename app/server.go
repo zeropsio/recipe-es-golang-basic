@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -60,15 +61,20 @@ func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
 }
 
 func ElasticSdk(w http.ResponseWriter, r *http.Request) {
+	type Result struct {
+		_id string
+	}
+	var result Result
 	if r.URL.Path == "/" {
 		insertResult, err := Insert(esClient)
 		if err != nil {
 			log.Fatalf("... Error! Elasticsearch insert operation failed: %e", err)
 		}
 		defer insertResult.Body.Close()
+		json.Unmarshal([]byte(insertResult.String()), &result)
 		if insertResult.StatusCode == 201 {
 			fmt.Fprintf(w, "... Hello! A new document was inserted into Elasticsearch!\n")
-			fmt.Printf("... created document id: %s\n", insertResult)
+			fmt.Printf("... created document id: %s\n", result._id)
 		} else {
 			fmt.Fprintf(w, "... Error! Elasticsearch insert operation failed: %d\n", insertResult.StatusCode)
 			fmt.Printf("... document creation failed: %d\n", insertResult.StatusCode)
