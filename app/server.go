@@ -68,7 +68,7 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 		defer insertResult.Body.Close()
 		if insertResult.StatusCode == 201 {
 			fmt.Fprintf(w, "... Hello! A new document was inserted into Elasticsearch!\n")
-			fmt.Printf("... created document id: %s\n", insertResult.Body)
+			fmt.Printf("... created document id: %s\n", insertResult)
 		} else {
 			fmt.Fprintf(w, "... Error! Elasticsearch insert operation failed: %d\n", insertResult.StatusCode)
 			fmt.Printf("... document creation failed: %d\n", insertResult.StatusCode)
