@@ -63,7 +63,7 @@ func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
 
 func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 	type Result struct {
-		Id string `json:"_id"`
+		_id string `json:"Id"`
 	}
 	var result Result
 	if r.URL.Path == "/" {
