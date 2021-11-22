@@ -13,12 +13,6 @@ import (
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 )
 
-type ElasticDoc struct {
-	Service string
-	Version string
-	Message string
-}
-
 // The chosen hostname of the Elasticsearch service.
 const hostname = "recipees"
 
@@ -45,14 +39,8 @@ func main() {
 }
 
 func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
-	doc := ElasticDoc{}
-	doc.Service = "Golang"
-	doc.Version = "1.16.3"
-	doc.Message = "es-golang-basic"
-	// jsonDoc, _ := json.Marshal(doc)
 	return esClient.Index(
 		"zerops-recipes",
-		// strings.NewReader(string(jsonDoc)),
 		strings.NewReader(`{
 			"service": "Golang",
 			"version": "1.16.3",
@@ -69,6 +57,7 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
 		insertResult, err := Insert(esClient)
 		if err != nil {
+			fmt.Fprintf(w, "... Error! Elasticsearch insert operation failed.")
 			log.Fatalf("... Error! Elasticsearch insert operation failed: %e", err)
 		}
 		defer insertResult.Body.Close()
