@@ -16,5 +16,6 @@ func main() {
 }
 
 func ElasticSdk(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(w, "... Request: %s %s", r.Host, r.URL.Path)
 	fmt.Println(w, "... Hello! A new document was inserted into Elasticsearch!")
 }
