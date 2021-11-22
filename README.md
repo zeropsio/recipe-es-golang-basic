@@ -4,7 +4,7 @@ The concept of pre-prepared skeletons demonstrates the way how to set up and use
 
 ## Recipe: Basic integration of Elasticsearch & Golang
 
-Pre-prepared skeleton demonstrating the way how to set up and use Golang and [Elasticsearch](https://www.elastic.co/elasticsearch) in Zerops. The main focus is on the client [Go SDK](https://www.elastic.co/guide/en/elasticsearch/client/go-api/current/index.html) (here, **v7.16** is used) configuration to connect the Elasticsearch service and show a simple example of how to insert a new document.
+Pre-prepared skeleton demonstrating the way how to set up and use Golang and [Elasticsearch](https://www.elastic.co/elasticsearch) in Zerops. The main focus is on the client [Go SDK](https://www.elastic.co/guide/en/elasticsearch/client/go-api/current/index.html) (here, **v7.15** is used) configuration to connect the Elasticsearch service and show a simple example of how to insert a new document.
 
 ## Zerops import syntax
 
