@@ -19,6 +19,15 @@ const hostname = "recipees"
 // Declaration of the Elasticsearch SDK API client.
 var esClient *elasticsearch.Client
 
+func main() {
+	http.HandleFunc("/", ElasticSdk)
+	const port = "8080"
+	fmt.Printf("... binding on port %s, the application is being started.\n", port)
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		log.Fatalf("... failed listening on port %s: %e, the application had been stopped.\n", port, err)
+	}
+}
+
 func getConnectionString(hostname string) (string, bool) {
 	// The requested environment variable name.
 	const connectionString = "connectionString"
@@ -38,20 +47,11 @@ func getEsClient(host string) *elasticsearch.Client {
 	return esClient
 }
 
-func init() {
+func initialization(hostname string) {
 	// For example, the result of the <host> would be: ["http://recipees:9200"]
 	host, found := getConnectionString(hostname)
 	if found {
 		esClient = getEsClient(host)
-	}
-}
-
-func main() {
-	http.HandleFunc("/", ElasticSdk)
-	const port = "8080"
-	fmt.Printf("... binding on port %s, the application is being started.\n", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatalf("... failed listening on port %s: %e, the application had been stopped.\n", port, err)
 	}
 }
 
@@ -72,8 +72,11 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 	}
 	var result Result
 	if esClient == nil {
-		fmt.Fprintf(w, "... Error! Elasticsearch SDK API client not initialized.")
-		log.Fatal("... Error! Elasticsearch SDK API client not initialized.")
+		initialization(hostname)
+		if esClient == nil {
+			fmt.Fprintf(w, "... Error! Elasticsearch SDK API client not initialized.")
+			log.Fatal("... Error! Elasticsearch SDK API client not initialized.")
+		}
 	}
 	if r.URL.Path == "/" {
 		insertResult, err := Insert(esClient)
