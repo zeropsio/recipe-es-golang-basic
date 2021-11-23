@@ -76,14 +76,15 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 		esClient = initialization(hostname)
 		if esClient == nil {
 			fmt.Fprintf(w, "... Error! Elasticsearch SDK API client not initialized.")
-			log.Fatal("... Error! Elasticsearch SDK API client not initialized.")
+			fmt.Println("... Error! Elasticsearch SDK API client not initialized.")
 		}
 	}
-	if r.URL.Path == "/" {
+	if esClient != nil && r.URL.Path == "/" {
 		insertResult, err := Insert(esClient)
 		if err != nil {
 			fmt.Fprintf(w, "... Error! Elasticsearch insert operation failed.")
-			log.Fatalf("... Error! Elasticsearch insert operation failed: %e", err)
+			fmt.Printf("... Error! Elasticsearch insert operation failed: %e", err)
+			return
 		}
 		defer insertResult.Body.Close()
 		body, _ := io.ReadAll(insertResult.Body)
