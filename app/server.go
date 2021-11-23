@@ -16,18 +16,35 @@ import (
 // The chosen hostname of the Elasticsearch service.
 const hostname = "recipees"
 
-// The requested environment variable name.
-const connectionString = "connectionString"
+// Declaration of the Elasticsearch SDK API client.
+var esClient *elasticsearch.Client
 
-// For example, the result of the <host> would be: ["http://recipees:9200"]
-var host, _ = os.LookupEnv(hostname + "_" + connectionString)
-
-var cfg = elasticsearch.Config{
-	Addresses: []string{host},
-	// Sniffing should be disabled.
-	DiscoverNodesOnStart: false,
+func getConnectionString(hostname string) (string, bool) {
+	// The requested environment variable name.
+	const connectionString = "connectionString"
+	return os.LookupEnv(hostname + "_" + connectionString)
 }
-var esClient, _ = elasticsearch.NewClient(cfg)
+
+func getEsClient(host string) *elasticsearch.Client {
+	var cfg = elasticsearch.Config{
+		Addresses: []string{host},
+		// Sniffing should be disabled.
+		DiscoverNodesOnStart: false,
+	}
+	esClient, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		return nil
+	}
+	return esClient
+}
+
+func init() {
+	// For example, the result of the <host> would be: ["http://recipees:9200"]
+	host, found := getConnectionString(hostname)
+	if found {
+		esClient = getEsClient(host)
+	}
+}
 
 func main() {
 	http.HandleFunc("/", ElasticSdk)
@@ -54,6 +71,10 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 		Id string `json:"_id"`
 	}
 	var result Result
+	if esClient == nil {
+		fmt.Fprintf(w, "... Error! Elasticsearch SDK API client not initialized.")
+		log.Fatal("... Error! Elasticsearch SDK API client not initialized.")
+	}
 	if r.URL.Path == "/" {
 		insertResult, err := Insert(esClient)
 		if err != nil {
