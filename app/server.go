@@ -47,12 +47,13 @@ func getEsClient(host string) *elasticsearch.Client {
 	return esClient
 }
 
-func initialization(hostname string) {
+func initialization(hostname string) *elasticsearch.Client {
 	// For example, the result of the <host> would be: ["http://recipees:9200"]
 	host, found := getConnectionString(hostname)
-	if found {
-		esClient = getEsClient(host)
+	if !found {
+		return nil
 	}
+	return getEsClient(host)
 }
 
 func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
@@ -72,7 +73,7 @@ func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 	}
 	var result Result
 	if esClient == nil {
-		initialization(hostname)
+		esClient = initialization(hostname)
 		if esClient == nil {
 			fmt.Fprintf(w, "... Error! Elasticsearch SDK API client not initialized.")
 			log.Fatal("... Error! Elasticsearch SDK API client not initialized.")
