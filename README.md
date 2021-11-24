@@ -42,3 +42,26 @@ Copy & paste the import snippet above into the dialog of **Import service** func
 ![Import](./images/Zerops-Import-Services-Dialog.png "Import Service Dialog")
 
 See the [Zerops documentation](https://docs.zerops.io/documentation/export-import/project-service-export-import.html) to understand how to use it.
+
+## Using the recipe
+
+1. Use the Zerops [importing](/documentation/export-import/project-service-export-import.html#how-to-export-import-a-project) functionality to import [both recipe services](#zerops-import-syntax) into your already existed Zerops project.
+
+2. Wait till the moment when both services will be created and running.
+
+![Recipe](./images/Zerops-Services-Initialization.png "Initialization")
+![Recipe](./images/Zerops-Services-Done.png "Done")
+
+3. Open the **recipeesgolang** Golang service to get access to its details.
+
+4. Open the **Private & public access** section in detail and turn on the switch **Enable Zerops Subdomain Access**. Wait till the moment it's processed.
+
+![Recipe](./images/Zerops-Service-Golang-Subdomain.png "Subdomain Access")
+
+5. Click on the activated subdomain URL to open a new web page. You can see the result of a essential operation when a new document is inserted into the Elasticsearch service from the Golang environment using the Elasticsearch SDK.
+
+![Recipe](./images/Zerops-Service-Subdomain-Access-Result.png "Subdomain Access Result")
+
+6. In the end, **don't remember to disable** the Zerops subdomain access. Finally, you can delete both services from your project to keep it clear and **save your free or paid Zerops credit** because you can always repeat it entirely from the beginning.
+
+7. Instead of using a Zerops subdomain, you can [map your public domain](http://localhost:8081/documentation/routing/using-your-domain.html) to access the service.
