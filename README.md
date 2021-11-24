@@ -45,7 +45,7 @@ See the [Zerops documentation](https://docs.zerops.io/documentation/export-impor
 
 ## Using the recipe
 
-1. Use the Zerops [importing](/documentation/export-import/project-service-export-import.html#how-to-export-import-a-project) functionality to import [both recipe services](#zerops-import-syntax) into your already existed Zerops project.
+1. Use the Zerops [importing](/documentation/export-import/project-service-export-import.html#how-to-export-import-a-project) functionality to import [both recipe services](#zerops-import-syntax) into your already existing Zerops project.
 
 2. Wait till the moment when both services will be created and running.
 
