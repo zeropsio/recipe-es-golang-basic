@@ -28,6 +28,7 @@ func main() {
 	}
 }
 
+// Function returning an connectionString environment variable of the <hostname> service.
 func getConnectionString(hostname string) (string, bool) {
 	// The requested environment variable name.
 	const connectionString = "connectionString"
