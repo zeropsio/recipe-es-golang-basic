@@ -35,6 +35,7 @@ func getConnectionString(hostname string) (string, bool) {
 	return os.LookupEnv(hostname + "_" + connectionString)
 }
 
+// Function returning an object of the Elasticsearch SDK client.
 func getEsClient(host string) *elasticsearch.Client {
 	var cfg = elasticsearch.Config{
 		Addresses: []string{host},
@@ -57,6 +58,7 @@ func initialization(hostname string) *elasticsearch.Client {
 	return getEsClient(host)
 }
 
+// Function inserting a new document.
 func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
 	return esClient.Index(
 		"zerops-recipes",
@@ -68,6 +70,7 @@ func Insert(esClient *elasticsearch.Client) (*esapi.Response, error) {
 	)
 }
 
+// Function called when accessing the root URL of the enabled Zerops subdomain.
 func ElasticSdk(w http.ResponseWriter, r *http.Request) {
 	type Result struct {
 		Id string `json:"_id"`
