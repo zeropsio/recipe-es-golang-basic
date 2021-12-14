@@ -64,4 +64,4 @@ See the [Zerops documentation](https://docs.zerops.io/documentation/export-impor
 
 6. In the end, **don't remember to disable** the Zerops subdomain access. Finally, you can delete both services from your project to keep it clear and **save your free or paid Zerops credit** because you can always repeat it entirely from the beginning.
 
-7. Instead of using a Zerops subdomain, you can [map your public domain](http://localhost:8081/documentation/routing/using-your-domain.html) to access the service.
+7. Instead of using a Zerops subdomain, you can [map your public domain](http://docs.zerops.io/documentation/routing/using-your-domain.html) to access the service.
