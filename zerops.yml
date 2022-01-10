@@ -1,5 +1,20 @@
-use: [go@1]
-run:
-  - go version
-  - go build -o ./bin/server ./app/server.go
-deploy: ["./bin/server"]
+# use: [go@1]
+# run:
+#   - go version
+#   - go build -o ./bin/server ./app/server.go
+# deploy: ["./bin/server"]
+
+# Service hostname.
+recipeesgolang:
+  build:
+    # What container type should be used as a base one for creating a build container.
+    base: [go@1]
+    # What tasks should be run to build the application.
+    build:
+      - go version
+      - go build -o ./bin/server ./app/server.go
+    # What files and directories should be copied from a build container into a runtime container.
+    deploy: ["./bin/server"]
+  run:
+    # A command that should start your service.
+    start: ./bin/server
