@@ -1,4 +1,4 @@
-# Service hostname.
+# Service hostname to which the application will be deployed.
 recipeesgolang:
   build:
     # What container type should be used as a base one for creating a build container.
